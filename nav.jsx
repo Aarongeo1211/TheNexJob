@@ -27,13 +27,18 @@ const Nav = () => {
       }}>
         <Logo size={26} />
         <nav style={{ display: "flex", gap: 28, alignItems: "center" }} className="nav-links">
-          {["Platform", "How it works", "Customers", "Pricing"].map(l => (
-            <a key={l} href="#" style={{
+          {[
+            { l: "Platform",     href: "#features" },
+            { l: "How it works", href: "#how" },
+            { l: "Pipeline",     href: "#pipeline" },
+            { l: "FAQ",          href: "#faq" },
+          ].map(item => (
+            <a key={item.l} href={item.href} style={{
               fontSize: 13.5, color: "var(--fg-2)", letterSpacing: "-0.005em",
               transition: "color 200ms",
             }} onMouseEnter={(e) => e.currentTarget.style.color = "var(--fg)"}
                onMouseLeave={(e) => e.currentTarget.style.color = "var(--fg-2)"}>
-              {l}
+              {item.l}
             </a>
           ))}
         </nav>

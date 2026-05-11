@@ -34,8 +34,8 @@ const CTA = () => (
             <a href="tel:+919886226049" className="btn btn-ghost">Talk to us · +91 98862 26049</a>
           </div>
           <div style={{ display: "flex", gap: 18, marginTop: 8, fontSize: 12, color: "var(--fg-3)", flexWrap: "wrap", justifyContent: "center" }}>
-            <span>· SOC 2 Type II</span>
-            <span>· GDPR + EEOC compliant</span>
+            <span>· contact@thenexjob.com</span>
+            <span>· Built by a team with two decades in recruiting</span>
             <span>· White-glove onboarding</span>
           </div>
         </div>
@@ -59,10 +59,10 @@ const FAQ = () => {
   const items = [
     { q: "What makes ThenexJob different from an ATS?", a: "ATSs store candidates. ThenexJob actively works the funnel — sourcing, scoring, scheduling, and re-engaging — like a senior recruiter on every requisition. We integrate with your ATS, not replace it." },
     { q: "How fast can we get value?", a: "Day one. We onboard a single role first; you'll see a calibrated shortlist within 24 hours. Most teams see their first hire within two weeks." },
-    { q: "Do you respect EEOC and bias controls?", a: "Yes. Every scoring trail is auditable, and we ship with bias-aware shortlisting calibrated by your hiring committee. No black boxes, no demographic shortcuts." },
+    { q: "Do you respect bias controls and auditability?", a: "Yes. Every scoring trail is auditable, and we ship with bias-aware shortlisting calibrated by your hiring committee. No black boxes, no demographic shortcuts." },
     { q: "How does outreach not feel automated?", a: "Our agent personalizes from a candidate's actual work — repos, papers, talks — not their headline. It drafts, you approve, then it sends and follows up. Reply rates are 3–4× standard sequencing tools." },
-    { q: "What's the pricing model?", a: "A platform fee per active requisition with no per-hire commission. Annual contracts include unlimited seats, ATS sync, and SOC 2 Type II evidence on request." },
-    { q: "Can we self-host or restrict data residency?", a: "Yes. EU and US regions are available out of the box. Enterprise customers can deploy in a private VPC with bring-your-own-key encryption." },
+    { q: "What's the pricing model?", a: "A platform fee per active requisition with no per-hire commission. Annual contracts include unlimited seats and ATS sync." },
+    { q: "How do you handle our candidate data?", a: "Your data stays yours. We use it only to deliver shortlists for your roles — never to train shared models or sell on. We're a young team; we'd rather earn your trust than wave around a logo wall." },
   ];
   const [open, setOpen] = React.useState(0);
 
