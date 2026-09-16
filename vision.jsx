@@ -16,14 +16,18 @@ const Vision = () => {
             <div className="card card-hover portrait-card" style={{
               aspectRatio: "4 / 5",
               display: "flex",
-              alignItems: "flex-end",
-              padding: 24,
+              flexDirection: "column",
               position: "relative",
+              overflow: "hidden",
             }}>
-              <div className="portrait-glow"/>
-              <div style={{ position: "relative" }}>
-                <div className="h-display" style={{ fontSize: 22 }}>Anil Achachan</div>
-                <div className="muted" style={{ fontSize: 13.5, marginTop: 4 }}>Founder, The Nex Job LLP</div>
+              <img
+                src="assets/anil.jpg"
+                alt="Anil V Babu"
+                style={{ width: "100%", flex: 1, objectFit: "cover", display: "block" }}
+              />
+              <div style={{ padding: "16px 20px", borderTop: "1px solid var(--border)" }}>
+                <div className="h-display" style={{ fontSize: 20 }}>Anil V Babu</div>
+                <div className="muted" style={{ fontSize: 13, marginTop: 3 }}>Founder, The Nex Job LLP</div>
               </div>
             </div>
           </div>

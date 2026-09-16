@@ -28,7 +28,7 @@ const Hero = () => {
             textWrap: "pretty",
             "--i": 2,
           }}>
-            ThenexJob is Anil Achachan's practice — hands-on support across recruitment,
+            ThenexJob is Anil V Babu's practice — hands-on support across recruitment,
             career guidance, sales consulting, and HR advisory, built on years of
             experience across hiring and people strategy.
           </p>

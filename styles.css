@@ -275,18 +275,7 @@ section { position: relative; padding: 120px 0; }
   border-color: rgba(var(--accent-glow), 0.32);
 }
 
-/* Vision portrait card — slow ambient gradient drift */
 .portrait-card { overflow: hidden; }
-.portrait-glow {
-  position: absolute; inset: 0;
-  background: linear-gradient(160deg, rgba(var(--accent-glow),0.16), rgba(var(--ink),0.03) 60%);
-  background-size: 180% 180%;
-  animation: driftGradient 9s ease-in-out infinite;
-}
-@keyframes driftGradient {
-  0%, 100% { background-position: 0% 0%; }
-  50%      { background-position: 100% 100%; }
-}
 
 /* Nav link underline sweep */
 .nav-link {
