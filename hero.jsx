@@ -2,7 +2,7 @@
 
 const Hero = () => {
   return (
-    <section style={{ paddingTop: 168, paddingBottom: 72 }}>
+    <section style={{ paddingTop: 148, paddingBottom: 56 }}>
       <div className="container">
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 24 }}>
           <span className="chip mount" style={{ "--i": 0 }}>

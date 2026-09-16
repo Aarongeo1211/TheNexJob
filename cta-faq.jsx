@@ -1,7 +1,7 @@
 /* CTA + FAQ + Footer — simplified, no fake SaaS footer columns */
 
 const CTA = () => (
-  <section id="contact" style={{ padding: "72px 0" }}>
+  <section id="contact" className="band" style={{ padding: "56px 0" }}>
     <div className="container">
       <div className="card" style={{
         padding: "64px 40px",

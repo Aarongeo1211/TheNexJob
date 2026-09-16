@@ -25,7 +25,7 @@ const SERVICES = [
 
 const Services = () => {
   return (
-    <section id="services">
+    <section id="services" className="band">
       <div className="container">
         <SectionHeader
           eyebrow="Services"
@@ -36,7 +36,7 @@ const Services = () => {
           display: "grid",
           gridTemplateColumns: "repeat(2, 1fr)",
           gap: 18,
-          marginTop: 56,
+          marginTop: 40,
         }} className="svc-grid">
           {SERVICES.map((s, i) => (
             <ServiceCard key={s.title} service={s} index={i} />
