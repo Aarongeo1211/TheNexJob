@@ -28,12 +28,12 @@ const Nav = () => {
         <Logo size={26} />
         <nav style={{ display: "flex", gap: 28, alignItems: "center" }} className="nav-links">
           {[
-            { l: "Platform",     href: "#features" },
-            { l: "How it works", href: "#how" },
-            { l: "Pipeline",     href: "#pipeline" },
-            { l: "FAQ",          href: "#faq" },
+            { l: "Services", href: "#services" },
+            { l: "Vision",   href: "#vision" },
+            { l: "FAQ",      href: "#faq" },
+            { l: "Contact",  href: "#contact" },
           ].map(item => (
-            <a key={item.l} href={item.href} style={{
+            <a key={item.l} href={item.href} className="nav-link" style={{
               fontSize: 13.5, color: "var(--fg-2)", letterSpacing: "-0.005em",
               transition: "color 200ms",
             }} onMouseEnter={(e) => e.currentTarget.style.color = "var(--fg)"}
@@ -43,8 +43,8 @@ const Nav = () => {
           ))}
         </nav>
         <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-          <a href="mailto:contact@thenexjob.com?subject=ThenexJob%20demo%20request" className="btn btn-primary">
-            Book a demo
+          <a href="mailto:contact@thenexjob.com?subject=Let's%20talk" className="btn btn-primary">
+            Get in touch
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
           </a>
         </div>

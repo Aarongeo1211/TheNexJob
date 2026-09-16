@@ -240,6 +240,67 @@ section { position: relative; padding: 120px 0; }
   transition: opacity 800ms cubic-bezier(.2,.8,.2,1), transform 800ms cubic-bezier(.2,.8,.2,1);
 }
 .reveal.in { opacity: 1; transform: none; }
+/* Staggered reveal — apply alongside .reveal to grid children */
+.reveal-stagger.in { transition-delay: calc(var(--i, 0) * 90ms); }
+
+/* Hero mount-in — plays once on load, no scroll trigger needed */
+@keyframes mountUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: none; }
+}
+.mount {
+  opacity: 0;
+  animation: mountUp 760ms cubic-bezier(.2,.8,.2,1) both;
+  animation-delay: calc(var(--i, 0) * 90ms);
+}
+
+/* Card hover lift — used on service + vision cards */
+.card-hover {
+  transition: transform 320ms cubic-bezier(.2,.8,.2,1), box-shadow 320ms cubic-bezier(.2,.8,.2,1), border-color 320ms;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-strong);
+  box-shadow: 0 1px 2px rgba(10,10,15,0.04), 0 16px 36px rgba(10,10,15,0.08);
+}
+[data-theme="dark"] .card-hover:hover {
+  box-shadow: 0 16px 36px rgba(0,0,0,0.35);
+}
+.card-hover .icon-box {
+  transition: transform 320ms cubic-bezier(.2,.8,.2,1), background 320ms, border-color 320ms;
+}
+.card-hover:hover .icon-box {
+  transform: scale(1.08);
+  background: rgba(var(--accent-glow), 0.14);
+  border-color: rgba(var(--accent-glow), 0.32);
+}
+
+/* Vision portrait card — slow ambient gradient drift */
+.portrait-card { overflow: hidden; }
+.portrait-glow {
+  position: absolute; inset: 0;
+  background: linear-gradient(160deg, rgba(var(--accent-glow),0.16), rgba(var(--ink),0.03) 60%);
+  background-size: 180% 180%;
+  animation: driftGradient 9s ease-in-out infinite;
+}
+@keyframes driftGradient {
+  0%, 100% { background-position: 0% 0%; }
+  50%      { background-position: 100% 100%; }
+}
+
+/* Nav link underline sweep */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 100%; bottom: -4px;
+  height: 1px;
+  background: var(--fg);
+  transition: right 260ms cubic-bezier(.2,.8,.2,1);
+}
+.nav-link:hover::after { right: 0; }
 
 /* Marquee for client logos */
 @keyframes marquee {
