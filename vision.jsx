@@ -23,7 +23,7 @@ const Vision = () => {
               <div className="portrait-glow"/>
               <div style={{ position: "relative" }}>
                 <div className="h-display" style={{ fontSize: 22 }}>Anil Achachan</div>
-                <div className="muted" style={{ fontSize: 13.5, marginTop: 4 }}>Founder, ThenexJob</div>
+                <div className="muted" style={{ fontSize: 13.5, marginTop: 4 }}>Founder, The Nex Job LLP</div>
               </div>
             </div>
           </div>

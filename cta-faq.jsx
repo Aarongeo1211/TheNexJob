@@ -126,7 +126,8 @@ const Footer = () => (
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 24, flexWrap: "wrap" }} className="foot-row">
         <div style={{ maxWidth: 380 }}>
           <Logo size={24}/>
-          <p style={{ color: "var(--fg-3)", fontSize: 13.5, lineHeight: 1.6, marginTop: 14 }}>
+          <div className="eyebrow" style={{ marginTop: 10, fontSize: 10.5 }}>Connect · Hire · Grow</div>
+          <p style={{ color: "var(--fg-3)", fontSize: 13.5, lineHeight: 1.6, marginTop: 12 }}>
             Recruitment, career guidance, sales consulting, and HR advisory — Anil Achachan's practice.
           </p>
         </div>
@@ -142,7 +143,7 @@ const Footer = () => (
         </div>
       </div>
       <div style={{ borderTop: "1px solid var(--border)", marginTop: 32, paddingTop: 20, fontSize: 12, color: "var(--fg-3)" }}>
-        © 2026 ThenexJob. All rights reserved.
+        © 2026 The Nex Job LLP. All rights reserved.
       </div>
       <style>{`
         @media (max-width: 560px) {

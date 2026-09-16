@@ -1,0 +1,12 @@
+.git
+.wrangler
+.claude
+.gitignore
+.assetsignore
+wrangler.jsonc
+
+# internal design/dev tooling not part of the live page
+tweaks-panel.jsx
+design-canvas.jsx
+logo-canvas.jsx
+Logo Canvas.html
