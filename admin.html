@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="styles.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <style>
     .admin-wrap { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
     .admin-section { margin-top: 40px; }
@@ -30,16 +31,22 @@
     </div>
 
     <div id="dashboard" hidden>
-      <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
         <div>
           <div class="eyebrow">Admin</div>
           <h1 class="h-display" style="font-size:28px;margin:8px 0 0;">Submissions</h1>
         </div>
-        <button id="logout" class="btn btn-ghost">Lock</button>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button id="exportAll" class="btn btn-accent">Export all to Excel</button>
+          <button id="logout" class="btn btn-ghost">Lock</button>
+        </div>
       </div>
 
       <div class="admin-section">
-        <h2>Candidates <span id="candCount" class="muted" style="font-weight:400;font-size:14px;"></span></h2>
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+          <h2>Candidates <span id="candCount" class="muted" style="font-weight:400;font-size:14px;"></span></h2>
+          <button id="exportCandidates" class="btn btn-ghost" style="font-size:13px;padding:8px 14px;">Export candidates</button>
+        </div>
         <div class="card" style="overflow-x:auto;padding:0;">
           <table class="admin-table" id="candTable">
             <thead><tr>
@@ -52,7 +59,10 @@
       </div>
 
       <div class="admin-section">
-        <h2>Recruiters <span id="recCount" class="muted" style="font-weight:400;font-size:14px;"></span></h2>
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+          <h2>Recruiters <span id="recCount" class="muted" style="font-weight:400;font-size:14px;"></span></h2>
+          <button id="exportRecruiters" class="btn btn-ghost" style="font-size:13px;padding:8px 14px;">Export recruiters</button>
+        </div>
         <div class="card" style="overflow-x:auto;padding:0;">
           <table class="admin-table" id="recTable">
             <thead><tr>
@@ -79,6 +89,86 @@
       try { return new Date(iso).toLocaleString(); } catch { return iso; }
     }
 
+    let lastCandidates = [];
+    let lastRecruiters = [];
+
+    function candidatesToRows(list) {
+      return list.map((c) => ({
+        'Date': fmtDate(c.created_at),
+        'Name': c.name,
+        'Email': c.email,
+        'Phone': c.phone,
+        'Alt Phone': c.alt_phone || '',
+        'Category': c.category,
+        'Role': c.role,
+        'Experience Range': c.experience_range,
+        'Description': c.description || '',
+        'Current Compensation': c.current_compensation || '',
+        'Expected Compensation': c.expected_compensation || '',
+        'Notice Period': c.notice_period || '',
+        'Resume Filename': c.resume_filename || '',
+      }));
+    }
+
+    function recruitersToRows(list) {
+      return list.map((r) => ({
+        'Date': fmtDate(r.created_at),
+        'Name': r.name,
+        'Email': r.email,
+        'Phone': r.phone,
+        'Company Name': r.company_name,
+        'Job Title': r.job_title,
+        'Category': r.category,
+        'Role': r.role,
+        'Compensation Range': r.compensation_range || '',
+        'Additional Info': r.additional_info || '',
+        'JD Filenames': (r.files || []).map((f) => f.filename).join(', '),
+      }));
+    }
+
+    function autoWidth(rows) {
+      if (!rows.length) return [];
+      return Object.keys(rows[0]).map((key) => {
+        const maxLen = Math.max(key.length, ...rows.map((r) => String(r[key] ?? '').length));
+        return { wch: Math.min(Math.max(maxLen + 2, 10), 50) };
+      });
+    }
+
+    function todayStamp() {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    function exportCandidates() {
+      const rows = candidatesToRows(lastCandidates);
+      const ws = XLSX.utils.json_to_sheet(rows);
+      ws['!cols'] = autoWidth(rows);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Candidates');
+      XLSX.writeFile(wb, `thenexjob-candidates-${todayStamp()}.xlsx`);
+    }
+
+    function exportRecruiters() {
+      const rows = recruitersToRows(lastRecruiters);
+      const ws = XLSX.utils.json_to_sheet(rows);
+      ws['!cols'] = autoWidth(rows);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Recruiters');
+      XLSX.writeFile(wb, `thenexjob-recruiters-${todayStamp()}.xlsx`);
+    }
+
+    function exportAll() {
+      const candRows = candidatesToRows(lastCandidates);
+      const recRows = recruitersToRows(lastRecruiters);
+      const wb = XLSX.utils.book_new();
+      const wsCand = XLSX.utils.json_to_sheet(candRows);
+      wsCand['!cols'] = autoWidth(candRows);
+      XLSX.utils.book_append_sheet(wb, wsCand, 'Candidates');
+      const wsRec = XLSX.utils.json_to_sheet(recRows);
+      wsRec['!cols'] = autoWidth(recRows);
+      XLSX.utils.book_append_sheet(wb, wsRec, 'Recruiters');
+      XLSX.writeFile(wb, `thenexjob-submissions-${todayStamp()}.xlsx`);
+    }
+
     async function loadData(token) {
       const headers = { Authorization: 'Bearer ' + token };
       const [candRes, recRes] = await Promise.all([
@@ -89,6 +179,8 @@
 
       const candData = await candRes.json();
       const recData = await recRes.json();
+      lastCandidates = candData.candidates;
+      lastRecruiters = recData.recruiters;
 
       const candBody = document.querySelector('#candTable tbody');
       candBody.innerHTML = candData.candidates.map((c) => `
@@ -143,6 +235,10 @@
       gate.hidden = false;
       tokenInput.value = '';
     });
+
+    document.getElementById('exportAll').addEventListener('click', exportAll);
+    document.getElementById('exportCandidates').addEventListener('click', exportCandidates);
+    document.getElementById('exportRecruiters').addEventListener('click', exportRecruiters);
 
     const saved = sessionStorage.getItem('thenexjob_admin_token');
     if (saved) tryUnlock(saved);
