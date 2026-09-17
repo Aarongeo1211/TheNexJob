@@ -5,6 +5,10 @@ const SERVICES = [
     title: "Recruitment",
     desc: "Permanent staffing and contract hiring, managed end-to-end — role scoping, sourcing, screening, and onboarding the right person, not just a fast one.",
     icon: "recruitment",
+    links: [
+      { label: "Submit your resume", href: "candidate" },
+      { label: "Looking to hire?", href: "recruiter" },
+    ],
   },
   {
     title: "Career Guidance",
@@ -65,6 +69,17 @@ const ServiceCard = ({ service, index }) => (
     </div>
     <h3 className="h-display" style={{ fontSize: 22, margin: 0 }}>{service.title}</h3>
     <p className="muted" style={{ margin: 0, fontSize: 15, lineHeight: 1.6, textWrap: "pretty" }}>{service.desc}</p>
+    {service.links && (
+      <div style={{ display: "flex", gap: 16, marginTop: 2 }}>
+        {service.links.map((l) => (
+          <a key={l.label} href={l.href} style={{ fontSize: 13.5, color: "var(--accent)", fontWeight: 500, borderBottom: "1px solid transparent" }}
+             onMouseEnter={(e) => e.currentTarget.style.borderColor = "var(--accent)"}
+             onMouseLeave={(e) => e.currentTarget.style.borderColor = "transparent"}>
+            {l.label} →
+          </a>
+        ))}
+      </div>
+    )}
   </div>
 );
 

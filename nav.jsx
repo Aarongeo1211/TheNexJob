@@ -42,16 +42,20 @@ const Nav = () => {
             </a>
           ))}
         </nav>
-        <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-          <a href="mailto:contact@thenexjob.com?subject=Let's%20talk" className="btn btn-primary">
-            Get in touch
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-          </a>
+        <div style={{ display: "flex", gap: 8, alignItems: "center" }} className="nav-ctas">
+          <a href="candidate" className="btn btn-ghost">Candidates</a>
+          <a href="recruiter" className="btn btn-primary">Recruiters</a>
         </div>
+        <a href="mailto:contact@thenexjob.com?subject=Let's%20talk" className="btn btn-primary nav-mobile-cta">
+          Get in touch
+        </a>
       </div>
       <style>{`
+        .nav-mobile-cta { display: none; }
         @media (max-width: 820px) {
           .nav-links { display: none !important; }
+          .nav-ctas { display: none !important; }
+          .nav-mobile-cta { display: inline-flex !important; }
         }
       `}</style>
     </header>

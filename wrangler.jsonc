@@ -1,14 +1,30 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "thenexjob",
+  "main": "worker/index.js",
   "compatibility_date": "2026-05-10",
   "observability": {
     "enabled": true
   },
   "assets": {
-    "directory": "."
+    "directory": ".",
+    "run_worker_first": ["/api/*"],
+    "binding": "ASSETS"
   },
   "compatibility_flags": [
     "nodejs_compat"
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "thenexjob-forms",
+      "database_id": "11a89832-6ec0-45e5-a905-ccfa3cba0fec"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "UPLOADS",
+      "bucket_name": "thenexjob-uploads"
+    }
   ]
 }

@@ -141,6 +141,10 @@ const Footer = () => (
             +91 98862 26049
           </a>
         </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 13.5 }}>
+          <a href="candidate" style={{ color: "var(--fg-2)" }}>For Candidates</a>
+          <a href="recruiter" style={{ color: "var(--fg-2)" }}>For Recruiters</a>
+        </div>
       </div>
       <div style={{ borderTop: "1px solid var(--border)", marginTop: 32, paddingTop: 20, fontSize: 12, color: "var(--fg-3)" }}>
         © 2026 The Nex Job LLP. All rights reserved.

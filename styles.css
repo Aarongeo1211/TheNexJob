@@ -311,6 +311,87 @@ section { position: relative; padding: 80px 0; }
   100% { transform: scale(2.4); opacity: 0; }
 }
 
+/* Form controls — used by candidate/recruiter forms */
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label {
+  font-size: 13px; font-weight: 500; color: var(--fg-2);
+}
+.field label .req { color: var(--accent); margin-left: 2px; }
+.field-hint { font-size: 12px; color: var(--fg-3); margin-top: -2px; }
+.input, .select, .textarea {
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: 14.5px;
+  color: var(--fg);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 11px 13px;
+  transition: border-color 180ms, box-shadow 180ms;
+  appearance: none;
+}
+.textarea { resize: vertical; min-height: 88px; font-family: var(--font-sans); line-height: 1.5; }
+.input:focus, .select:focus, .textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(var(--accent-glow), 0.18);
+}
+.select {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none'%3e%3cpath d='M1 1l4 4 4-4' stroke='%2375757D' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 34px;
+}
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 640px) {
+  .field-row { grid-template-columns: 1fr; }
+}
+
+/* Category toggle (IT / Non-IT) */
+.cat-toggle { display: flex; gap: 8px; }
+.cat-btn {
+  flex: 1;
+  padding: 11px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--fg-2);
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  transition: all 180ms;
+}
+.cat-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+  box-shadow: 0 4px 14px rgba(var(--accent-glow), 0.30);
+}
+
+/* File dropzone */
+.dropzone {
+  border: 1.5px dashed var(--border-strong);
+  border-radius: var(--radius);
+  padding: 22px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 180ms, background 180ms;
+  background: var(--surface-2);
+}
+.dropzone:hover { border-color: var(--accent); }
+.dropzone.has-files { border-style: solid; border-color: var(--accent); }
+.dropzone input[type="file"] { display: none; }
+.file-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--surface); border: 1px solid var(--border-strong);
+  border-radius: 999px; padding: 5px 10px 5px 12px; font-size: 12.5px; color: var(--fg-2);
+}
+.file-chip button {
+  background: none; border: none; color: var(--fg-3); cursor: pointer;
+  font-size: 14px; line-height: 1; padding: 2px;
+}
+
 .accent { color: var(--accent); }
 .text-glow {
   background: linear-gradient(180deg, var(--fg) 0%, color-mix(in oklab, var(--fg), var(--accent) 35%) 100%);

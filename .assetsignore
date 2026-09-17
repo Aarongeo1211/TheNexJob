@@ -10,3 +10,8 @@ tweaks-panel.jsx
 design-canvas.jsx
 logo-canvas.jsx
 Logo Canvas.html
+
+# server-side source + DB schema — not for public serving
+# (run_worker_first intercepts /api/* before the asset server, so this
+# exclusion doesn't affect the API; it only stops direct GETs of the source)
+worker
