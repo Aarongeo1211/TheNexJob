@@ -1,7 +1,7 @@
 /* The Nex Job — real brand mark (assets/logo-mark.png) + wordmark */
 const Logo = ({ size = 28, showWord = true }) => {
   return (
-    <a href="#" className="logo" style={{ display: "inline-flex", alignItems: "center", gap: 9 }}>
+    <a href="/" className="logo" style={{ display: "inline-flex", alignItems: "center", gap: 9 }}>
       <LogoMark size={size} />
       {showWord && (
         <span style={{

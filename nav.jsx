@@ -28,10 +28,10 @@ const Nav = () => {
         <Logo size={26} />
         <nav style={{ display: "flex", gap: 28, alignItems: "center" }} className="nav-links">
           {[
-            { l: "Services", href: "#services" },
-            { l: "Vision",   href: "#vision" },
-            { l: "FAQ",      href: "#faq" },
-            { l: "Contact",  href: "#contact" },
+            { l: "Services", href: "/#services" },
+            { l: "Vision",   href: "/#vision" },
+            { l: "FAQ",      href: "/#faq" },
+            { l: "Contact",  href: "/#contact" },
           ].map(item => (
             <a key={item.l} href={item.href} className="nav-link" style={{
               fontSize: 13.5, color: "var(--fg-2)", letterSpacing: "-0.005em",
