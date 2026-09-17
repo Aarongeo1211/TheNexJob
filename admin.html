@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Admin — The Nex Job</title>
+  <meta name="robots" content="noindex, nofollow"/>
+  <link rel="icon" type="image/png" href="assets/favicon.png"/>
+  <meta name="theme-color" content="#0B72D9"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <style>
+    .admin-wrap { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+    .admin-section { margin-top: 40px; }
+    .admin-section h2 { font-size: 20px; margin: 0 0 4px; }
+    .token-gate { max-width: 420px; margin: 120px auto; text-align: center; }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="admin-wrap">
+    <div id="gate" class="token-gate card" style="padding:32px;">
+      <div class="eyebrow" style="justify-content:center;">Admin</div>
+      <h1 class="h-display" style="font-size:24px;margin:12px 0 16px;">Enter access token</h1>
+      <input id="tokenInput" type="password" class="input" placeholder="Admin token" style="margin-bottom:12px;"/>
+      <button id="tokenSubmit" class="btn btn-accent" style="width:100%;justify-content:center;">Unlock</button>
+      <div id="tokenError" class="muted" style="margin-top:10px;font-size:13px;color:#B91C1C;" hidden>Invalid token.</div>
+    </div>
+
+    <div id="dashboard" hidden>
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div class="eyebrow">Admin</div>
+          <h1 class="h-display" style="font-size:28px;margin:8px 0 0;">Submissions</h1>
+        </div>
+        <button id="logout" class="btn btn-ghost">Lock</button>
+      </div>
+
+      <div class="admin-section">
+        <h2>Candidates <span id="candCount" class="muted" style="font-weight:400;font-size:14px;"></span></h2>
+        <div class="card" style="overflow-x:auto;padding:0;">
+          <table class="admin-table" id="candTable">
+            <thead><tr>
+              <th>Date</th><th>Name</th><th>Contact</th><th>Category / Role</th>
+              <th>Experience</th><th>Compensation</th><th>Notice</th><th>Resume</th>
+            </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="admin-section">
+        <h2>Recruiters <span id="recCount" class="muted" style="font-weight:400;font-size:14px;"></span></h2>
+        <div class="card" style="overflow-x:auto;padding:0;">
+          <table class="admin-table" id="recTable">
+            <thead><tr>
+              <th>Date</th><th>Name</th><th>Contact</th><th>Company / Title</th>
+              <th>Category / Role</th><th>Compensation</th><th>JDs</th>
+            </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const gate = document.getElementById('gate');
+    const dashboard = document.getElementById('dashboard');
+    const tokenInput = document.getElementById('tokenInput');
+    const tokenError = document.getElementById('tokenError');
+
+    function esc(s) {
+      return (s ?? '').toString().replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+    function fmtDate(iso) {
+      try { return new Date(iso).toLocaleString(); } catch { return iso; }
+    }
+
+    async function loadData(token) {
+      const headers = { Authorization: 'Bearer ' + token };
+      const [candRes, recRes] = await Promise.all([
+        fetch('/api/admin/candidates', { headers }),
+        fetch('/api/admin/recruiters', { headers }),
+      ]);
+      if (candRes.status === 401 || recRes.status === 401) return false;
+
+      const candData = await candRes.json();
+      const recData = await recRes.json();
+
+      const candBody = document.querySelector('#candTable tbody');
+      candBody.innerHTML = candData.candidates.map((c) => `
+        <tr>
+          <td>${fmtDate(c.created_at)}</td>
+          <td>${esc(c.name)}</td>
+          <td>${esc(c.email)}<br/><span class="muted">${esc(c.phone)}${c.alt_phone ? ' / ' + esc(c.alt_phone) : ''}</span></td>
+          <td>${esc(c.category)}<br/><span class="muted">${esc(c.role)}</span></td>
+          <td>${esc(c.experience_range)}</td>
+          <td>${esc(c.current_compensation)}${c.expected_compensation ? ' → ' + esc(c.expected_compensation) : ''}</td>
+          <td>${esc(c.notice_period)}</td>
+          <td>${c.resume_filename ? `<a class="admin-link" href="/api/admin/file/candidate/${c.id}?token=${encodeURIComponent(token)}">${esc(c.resume_filename)}</a>` : '<span class="muted">—</span>'}</td>
+        </tr>`).join('');
+      document.getElementById('candCount').textContent = `(${candData.candidates.length})`;
+
+      const recBody = document.querySelector('#recTable tbody');
+      recBody.innerHTML = recData.recruiters.map((r) => `
+        <tr>
+          <td>${fmtDate(r.created_at)}</td>
+          <td>${esc(r.name)}</td>
+          <td>${esc(r.email)}<br/><span class="muted">${esc(r.phone)}</span></td>
+          <td>${esc(r.company_name)}<br/><span class="muted">${esc(r.job_title)}</span></td>
+          <td>${esc(r.category)}<br/><span class="muted">${esc(r.role)}</span></td>
+          <td>${esc(r.compensation_range) || '<span class="muted">—</span>'}</td>
+          <td>${r.files.length ? r.files.map((f) => `<a class="admin-link" style="display:block;" href="/api/admin/file/recruiter/${f.id}?token=${encodeURIComponent(token)}">${esc(f.filename)}</a>`).join('') : '<span class="muted">—</span>'}</td>
+        </tr>`).join('');
+      document.getElementById('recCount').textContent = `(${recData.recruiters.length})`;
+
+      return true;
+    }
+
+    async function tryUnlock(token) {
+      const ok = await loadData(token);
+      if (ok) {
+        sessionStorage.setItem('thenexjob_admin_token', token);
+        gate.hidden = true;
+        dashboard.hidden = false;
+      } else {
+        tokenError.hidden = false;
+      }
+    }
+
+    document.getElementById('tokenSubmit').addEventListener('click', () => {
+      tokenError.hidden = true;
+      const t = tokenInput.value.trim();
+      if (t) tryUnlock(t);
+    });
+    tokenInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') document.getElementById('tokenSubmit').click(); });
+    document.getElementById('logout').addEventListener('click', () => {
+      sessionStorage.removeItem('thenexjob_admin_token');
+      dashboard.hidden = true;
+      gate.hidden = false;
+      tokenInput.value = '';
+    });
+
+    const saved = sessionStorage.getItem('thenexjob_admin_token');
+    if (saved) tryUnlock(saved);
+  </script>
+</body>
+</html>

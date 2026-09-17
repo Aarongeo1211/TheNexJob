@@ -20,11 +20,5 @@
       "database_name": "thenexjob-forms",
       "database_id": "11a89832-6ec0-45e5-a905-ccfa3cba0fec"
     }
-  ],
-  "r2_buckets": [
-    {
-      "binding": "UPLOADS",
-      "bucket_name": "thenexjob-uploads"
-    }
   ]
 }

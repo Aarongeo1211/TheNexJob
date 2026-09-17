@@ -47,7 +47,7 @@ const CandidateForm = () => {
           <input className="input" type="tel" name="alt_phone" />
         </div>
 
-        <FileField name="resume" label="Resume" hint="PDF, DOC, or DOCX — up to 8MB" />
+        <FileField name="resume" label="Resume" hint="PDF, DOC, or DOCX — up to 1.5MB" />
 
         <div className="field">
           <label>Experience Range <span className="req">*</span></label>

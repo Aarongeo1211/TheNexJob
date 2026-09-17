@@ -53,7 +53,7 @@ const RecruiterForm = () => {
 
         <CategoryRolePicker value={roleValue} onChange={setRoleValue} name="role" />
 
-        <FileField name="jds" label="Job Description(s)" multiple max={5} hint="PDF, DOC, or DOCX — up to 5 files, 8MB each" />
+        <FileField name="jds" label="Job Description(s)" multiple max={5} hint="PDF, DOC, or DOCX — up to 5 files, 1.5MB each" />
 
         <div className="field">
           <label>Compensation Range</label>
