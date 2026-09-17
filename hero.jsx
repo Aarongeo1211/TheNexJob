@@ -28,9 +28,9 @@ const Hero = () => {
             textWrap: "pretty",
             "--i": 2,
           }}>
-            The Nex Job is Anil V Babu's practice — hands-on support across recruitment,
-            career guidance, sales consulting, and HR advisory, built on years of
-            experience across hiring and people strategy.
+            The Nex Job offers hands-on support across recruitment, career guidance,
+            sales consulting, and HR advisory — built on years of experience across
+            hiring and people strategy.
           </p>
 
           <div className="mount" style={{ display: "flex", gap: 10, marginTop: 6, flexWrap: "wrap", justifyContent: "center", "--i": 3 }}>

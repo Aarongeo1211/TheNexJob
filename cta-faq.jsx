@@ -128,7 +128,7 @@ const Footer = () => (
           <Logo size={24}/>
           <div className="eyebrow" style={{ marginTop: 10, fontSize: 10.5 }}>Connect · Hire · Grow</div>
           <p style={{ color: "var(--fg-3)", fontSize: 13.5, lineHeight: 1.6, marginTop: 12 }}>
-            Recruitment, career guidance, sales consulting, and HR advisory — Anil V Babu's practice.
+            Recruitment, career guidance, sales consulting, and HR advisory.
           </p>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 13.5 }}>
