@@ -23,7 +23,7 @@ const NON_IT_ROLES = [
  * Selecting "Other ..." reveals a free-text field. Reports back via onChange
  * with { category, role } where role is the free-text value when "Other" is picked.
  */
-const CategoryRolePicker = ({ value, onChange, name = "role" }) => {
+const CategoryRolePicker = ({ value, onChange, name = "role", error }) => {
   const category = value.category || "";
   const role = value.role || "";
   const otherText = value.otherText || "";
@@ -42,18 +42,19 @@ const CategoryRolePicker = ({ value, onChange, name = "role" }) => {
   };
 
   return (
-    <div className="field">
+    <div className="field" data-field-group="category">
       <label>
         {category === "" ? "IT or Non-IT?" : "Category"} <span className="req">*</span>
       </label>
       <div className="cat-toggle">
-        <button type="button" className={`cat-btn ${category === "IT" ? "active" : ""}`} onClick={() => setCategory("IT")}>
+        <button type="button" className={`cat-btn ${category === "IT" ? "active" : ""} ${error ? "cat-btn-error" : ""}`} onClick={() => setCategory("IT")}>
           IT
         </button>
-        <button type="button" className={`cat-btn ${category === "Non-IT" ? "active" : ""}`} onClick={() => setCategory("Non-IT")}>
+        <button type="button" className={`cat-btn ${category === "Non-IT" ? "active" : ""} ${error ? "cat-btn-error" : ""}`} onClick={() => setCategory("Non-IT")}>
           Non-IT
         </button>
       </div>
+      <FieldError message={error} />
 
       {category !== "" && (
         <div style={{ marginTop: 12 }}>

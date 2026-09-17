@@ -352,6 +352,49 @@ section { position: relative; padding: 80px 0; }
   .field-row { grid-template-columns: 1fr; }
 }
 
+/* Validation */
+.input-error, .select-error, .textarea-error {
+  border-color: #DC2626 !important;
+}
+.input-error:focus, .select-error:focus, .textarea-error:focus {
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.16) !important;
+}
+.field-error {
+  color: #B91C1C;
+  font-size: 12.5px;
+  margin-top: 2px;
+}
+
+/* Success modal */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(8, 22, 43, 0.45);
+  backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  animation: modalFade 220ms ease both;
+}
+@keyframes modalFade { from { opacity: 0; } to { opacity: 1; } }
+.modal-card {
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  max-width: 380px;
+  width: 100%;
+  padding: 32px 28px;
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(8, 22, 43, 0.25);
+  animation: modalPop 260ms cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes modalPop { from { opacity: 0; transform: translateY(12px) scale(0.98); } to { opacity: 1; transform: none; } }
+.modal-check {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: rgba(var(--accent-glow), 0.12);
+  color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto;
+}
+
 /* Category toggle (IT / Non-IT) */
 .cat-toggle { display: flex; gap: 8px; }
 .cat-btn {
@@ -373,6 +416,7 @@ section { position: relative; padding: 80px 0; }
   color: white;
   box-shadow: 0 4px 14px rgba(var(--accent-glow), 0.30);
 }
+.cat-btn-error:not(.active) { border-color: #DC2626; }
 
 /* File dropzone */
 .dropzone {
