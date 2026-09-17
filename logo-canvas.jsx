@@ -1,4 +1,4 @@
-/* ThenexJob — logo explorations */
+/* The Nex Job — logo explorations */
 
 const Frame = ({ children, bg = "var(--bg)" }) => (
   <div style={{
