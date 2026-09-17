@@ -3,6 +3,8 @@
 .claude
 .gitignore
 .assetsignore
+.dev.vars
+.dev.vars*
 wrangler.jsonc
 
 # internal design/dev tooling not part of the live page
