@@ -18,28 +18,33 @@ const Vision = () => {
   return (
     <section id="vision">
       <div className="container">
-        <div style={{ display: "grid", gridTemplateColumns: "0.85fr 1.15fr", gap: 48, alignItems: "start" }} className="vision-grid">
-          <div className="reveal">
-            <div className="card card-hover portrait-card" style={{
-              aspectRatio: "4 / 5",
-              display: "flex",
-              flexDirection: "column",
-              position: "relative",
-              overflow: "hidden",
-            }}>
-              <img
-                src="assets/anil.jpg"
-                alt="Anil V Babu"
-                style={{ width: "100%", flex: 1, objectFit: "cover", display: "block" }}
-              />
-              <div style={{ padding: "16px 20px", borderTop: "1px solid var(--border)" }}>
-                <div className="h-display" style={{ fontSize: 20 }}>Anil V Babu</div>
-                <div className="muted" style={{ fontSize: 13, marginTop: 3 }}>Founder, The Nex Job LLP</div>
+        <div style={{ display: "flex", gap: 48 }} className="vision-grid">
+          {/* This column stretches (default align-items) to match the text
+              column's height, giving the inner sticky card room to slide
+              within it as the page scrolls. */}
+          <div className="reveal vision-photo-col" style={{ flex: "0 0 42%" }}>
+            <div className="vision-photo-sticky">
+              <div className="card card-hover portrait-card" style={{
+                aspectRatio: "4 / 5",
+                display: "flex",
+                flexDirection: "column",
+                position: "relative",
+                overflow: "hidden",
+              }}>
+                <img
+                  src="assets/anil.jpg"
+                  alt="Anil V Babu"
+                  style={{ width: "100%", flex: 1, objectFit: "cover", display: "block" }}
+                />
+                <div style={{ padding: "16px 20px", borderTop: "1px solid var(--border)" }}>
+                  <div className="h-display" style={{ fontSize: 20 }}>Anil V Babu</div>
+                  <div className="muted" style={{ fontSize: 13, marginTop: 3 }}>Founder, The Nex Job LLP</div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 20, flex: "1 1 auto", minWidth: 0 }}>
             <span className="eyebrow">Vision &amp; Experience</span>
             <h2 className="h-display" style={{ fontSize: "clamp(30px, 4vw, 46px)", margin: 0 }}>
               22+ years, <span className="h-serif-italic" style={{ color: "color-mix(in oklab, var(--fg), var(--accent) 30%)" }}>one throughline</span>.
@@ -63,14 +68,13 @@ const Vision = () => {
               ))}
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", marginTop: 8 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "4px 28px", marginTop: 8 }} className="highlights-grid">
               {HIGHLIGHTS.map((h) => (
-                <div key={h.label} style={{ borderTop: "1px solid var(--border)", padding: "14px 0" }}>
-                  <div style={{ fontSize: 14, fontWeight: 500, color: "var(--fg)" }}>{h.label}</div>
-                  <div className="muted" style={{ fontSize: 13.5, marginTop: 4, lineHeight: 1.55, textWrap: "pretty" }}>{h.note}</div>
+                <div key={h.label} style={{ borderTop: "1px solid var(--border)", padding: "12px 0" }}>
+                  <div style={{ fontSize: 13.5, fontWeight: 500, color: "var(--fg)" }}>{h.label}</div>
+                  <div className="muted" style={{ fontSize: 12.5, marginTop: 4, lineHeight: 1.5, textWrap: "pretty" }}>{h.note}</div>
                 </div>
               ))}
-              <div style={{ borderTop: "1px solid var(--border)" }}/>
             </div>
 
             <p className="dim" style={{ fontSize: 13, lineHeight: 1.6, margin: 0, maxWidth: 560, textWrap: "pretty" }}>
@@ -81,11 +85,17 @@ const Vision = () => {
           </div>
         </div>
         <style>{`
+          .vision-photo-sticky { position: sticky; top: 96px; }
+          .highlights-grid > div:last-child { grid-column: span 2; }
           @media (max-width: 820px) {
-            .vision-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+            .vision-grid { flex-direction: column !important; gap: 32px !important; }
+            .vision-photo-col { flex-basis: auto !important; width: 100% !important; }
+            .vision-photo-sticky { position: static !important; }
           }
           @media (max-width: 560px) {
             .stat-row { grid-template-columns: 1fr 1fr !important; }
+            .highlights-grid { grid-template-columns: 1fr !important; }
+            .highlights-grid > div:last-child { grid-column: span 1 !important; }
           }
         `}</style>
       </div>

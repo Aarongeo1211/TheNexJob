@@ -82,7 +82,12 @@ body {
     radial-gradient(900px 700px at 0% 60%, rgba(var(--accent-glow), 0.07), transparent 65%),
     var(--bg);
   min-height: 100vh;
-  overflow-x: hidden;
+  /* clip, not hidden — overflow-x:hidden forces overflow-y to a non-visible
+     value too, which turns body into a scroll container and silently breaks
+     position:sticky on every descendant (e.g. the Vision portrait). clip
+     prevents the same horizontal bleed without that side effect. */
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 a { color: inherit; text-decoration: none; }
