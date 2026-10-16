@@ -20,6 +20,7 @@ const CandidateForm = () => {
       { name: "email", value: el.email.value, label: "Email", required: true, validator: isValidEmail, message: "Enter a valid email address." },
       { name: "phone", value: el.phone.value, label: "Phone number", required: true, validator: isValidPhone, message: "Enter a valid phone number." },
       { name: "alt_phone", value: el.alt_phone.value, label: "Alternative phone number", required: false, validator: isValidPhone, message: "Enter a valid phone number." },
+      { name: "current_location", value: el.current_location.value, label: "Current location", required: true },
       { name: "experience_range", value: el.experience_range.value, label: "Experience range", required: true },
     ]);
     if (!roleValue.category) {
@@ -98,9 +99,10 @@ const CandidateForm = () => {
         <CategoryRolePicker value={roleValue} onChange={setRoleValue} name="role" error={errors.category} />
 
         <div className="field-row">
-          <div className="field">
-            <label>Current Location</label>
-            <input className="input" type="text" name="current_location" placeholder="e.g. Bengaluru" />
+          <div className="field" data-field-group="current_location">
+            <label>Current Location <span className="req">*</span></label>
+            <input className={cls("input", "current_location")} type="text" name="current_location" placeholder="e.g. Bengaluru" />
+            <FieldError message={errors.current_location} />
           </div>
           <div className="field">
             <label>Preferred Location</label>

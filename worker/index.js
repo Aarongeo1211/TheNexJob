@@ -25,6 +25,10 @@ function validFile(file) {
   return "";
 }
 
+function last10(phone) {
+  return String(phone).replace(/\D/g, "").slice(-10);
+}
+
 function requireFields(form, fields) {
   for (const f of fields) {
     const v = form.get(f);
@@ -45,8 +49,15 @@ function requireAdmin(request, env) {
 async function handleCandidate(request, env) {
   const form = await request.formData();
 
-  const missing = requireFields(form, ["name", "email", "phone", "experience_range", "category", "role"]);
+  const missing = requireFields(form, ["name", "email", "phone", "experience_range", "category", "role", "current_location"]);
   if (missing) return badRequest(`Missing required field: ${missing}`);
+
+  const email = String(form.get("email")).trim().toLowerCase();
+  const phone = last10(form.get("phone"));
+  const { results: existing } = await env.DB.prepare(`SELECT email, phone FROM candidates`).all();
+  if (existing.some((r) => r.email.trim().toLowerCase() === email || last10(r.phone) === phone)) {
+    return json({ ok: false, error: "You've already submitted your details with this email or phone number. We'll be in touch." }, 409);
+  }
 
   const resume = form.get("resume");
   const resumeCheck = validFile(resume);
