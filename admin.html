@@ -51,7 +51,7 @@
           <table class="admin-table" id="candTable">
             <thead><tr>
               <th>Date</th><th>Name</th><th>Contact</th><th>Category / Role</th>
-              <th>Experience</th><th>Compensation</th><th>Notice</th><th>Resume</th>
+              <th>Experience</th><th>Location</th><th>Compensation</th><th>Notice</th><th>Resume</th><th></th>
             </tr></thead>
             <tbody></tbody>
           </table>
@@ -67,7 +67,7 @@
           <table class="admin-table" id="recTable">
             <thead><tr>
               <th>Date</th><th>Name</th><th>Contact</th><th>Company / Title</th>
-              <th>Category / Role</th><th>Compensation</th><th>JDs</th>
+              <th>Category / Role</th><th>Compensation</th><th>JDs</th><th></th>
             </tr></thead>
             <tbody></tbody>
           </table>
@@ -106,6 +106,8 @@
         'Current Compensation': c.current_compensation || '',
         'Expected Compensation': c.expected_compensation || '',
         'Notice Period': c.notice_period || '',
+        'Current Location': c.current_location || '',
+        'Preferred Location': c.preferred_location || '',
         'Resume Filename': c.resume_filename || '',
       }));
     }
@@ -190,9 +192,11 @@
           <td>${esc(c.email)}<br/><span class="muted">${esc(c.phone)}${c.alt_phone ? ' / ' + esc(c.alt_phone) : ''}</span></td>
           <td>${esc(c.category)}<br/><span class="muted">${esc(c.role)}</span></td>
           <td>${esc(c.experience_range)}</td>
+          <td>${c.current_location || c.preferred_location ? esc(c.current_location) + '<br/><span class="muted">→ ' + esc(c.preferred_location) + '</span>' : '<span class="muted">—</span>'}</td>
           <td>${esc(c.current_compensation)}${c.expected_compensation ? ' → ' + esc(c.expected_compensation) : ''}</td>
           <td>${esc(c.notice_period)}</td>
           <td>${c.resume_filename ? `<a class="admin-link" href="/api/admin/file/candidate/${c.id}?token=${encodeURIComponent(token)}">${esc(c.resume_filename)}</a>` : '<span class="muted">—</span>'}</td>
+          <td><button class="btn btn-ghost del-btn" data-kind="candidate" data-id="${c.id}" data-label="${esc(c.name)}" style="font-size:12px;padding:6px 10px;color:#B91C1C;">Delete</button></td>
         </tr>`).join('');
       document.getElementById('candCount').textContent = `(${candData.candidates.length})`;
 
@@ -206,6 +210,7 @@
           <td>${esc(r.category)}<br/><span class="muted">${esc(r.role)}</span></td>
           <td>${esc(r.compensation_range) || '<span class="muted">—</span>'}</td>
           <td>${r.files.length ? r.files.map((f) => `<a class="admin-link" style="display:block;" href="/api/admin/file/recruiter/${f.id}?token=${encodeURIComponent(token)}">${esc(f.filename)}</a>`).join('') : '<span class="muted">—</span>'}</td>
+          <td><button class="btn btn-ghost del-btn" data-kind="recruiter" data-id="${r.id}" data-label="${esc(r.name)}" style="font-size:12px;padding:6px 10px;color:#B91C1C;">Delete</button></td>
         </tr>`).join('');
       document.getElementById('recCount').textContent = `(${recData.recruiters.length})`;
 
@@ -234,6 +239,17 @@
       dashboard.hidden = true;
       gate.hidden = false;
       tokenInput.value = '';
+    });
+
+    document.addEventListener('click', async (e) => {
+      const btn = e.target.closest('.del-btn');
+      if (!btn) return;
+      const { kind, id, label } = btn.dataset;
+      if (!confirm(`Permanently delete ${kind} "${label}"? This cannot be undone.`)) return;
+      const token = sessionStorage.getItem('thenexjob_admin_token');
+      btn.disabled = true;
+      const res = await fetch(`/api/admin/${kind}/${id}`, { method: 'DELETE', headers: { Authorization: 'Bearer ' + token } });
+      if (res.ok) loadData(token); else { btn.disabled = false; alert('Delete failed.'); }
     });
 
     document.getElementById('exportAll').addEventListener('click', exportAll);

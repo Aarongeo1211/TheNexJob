@@ -66,8 +66,8 @@ async function handleCandidate(request, env) {
     `INSERT INTO candidates
       (id, name, email, phone, alt_phone, resume_filename, resume_content_type, resume_blob,
        experience_range, category, role, description, current_compensation, expected_compensation,
-       notice_period, created_at)
-     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
+       notice_period, current_location, preferred_location, created_at)
+     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
   ).bind(
     id,
     form.get("name"),
@@ -84,6 +84,8 @@ async function handleCandidate(request, env) {
     form.get("current_compensation") || null,
     form.get("expected_compensation") || null,
     form.get("notice_period") || null,
+    form.get("current_location") || null,
+    form.get("preferred_location") || null,
     new Date().toISOString()
   ).run();
 
@@ -140,7 +142,7 @@ async function handleRecruiter(request, env) {
 async function handleAdminCandidates(env) {
   const { results } = await env.DB.prepare(
     `SELECT id, name, email, phone, alt_phone, resume_filename, experience_range, category, role,
-            description, current_compensation, expected_compensation, notice_period, created_at
+            description, current_compensation, expected_compensation, notice_period, current_location, preferred_location, created_at
      FROM candidates ORDER BY created_at DESC`
   ).all();
   return json({ ok: true, candidates: results });
@@ -161,6 +163,18 @@ async function handleAdminRecruiters(env) {
   }
   for (const r of recruiters) r.files = filesByRecruiter[r.id] || [];
   return json({ ok: true, recruiters });
+}
+
+async function handleAdminDelete(env, kind, id) {
+  if (kind === "candidate") {
+    await env.DB.prepare(`DELETE FROM candidates WHERE id = ?`).bind(id).run();
+  } else {
+    await env.DB.batch([
+      env.DB.prepare(`DELETE FROM recruiter_files WHERE recruiter_id = ?`).bind(id),
+      env.DB.prepare(`DELETE FROM recruiters WHERE id = ?`).bind(id),
+    ]);
+  }
+  return json({ ok: true });
 }
 
 async function handleAdminFile(env, kind, id) {
@@ -212,6 +226,8 @@ export default {
         if (url.pathname === "/api/admin/recruiters") return await handleAdminRecruiters(env);
         const fileMatch = url.pathname.match(/^\/api\/admin\/file\/(candidate|recruiter)\/([^/]+)$/);
         if (fileMatch) return await handleAdminFile(env, fileMatch[1], fileMatch[2]);
+        const delMatch = url.pathname.match(/^\/api\/admin\/(candidate|recruiter)\/([^/]+)$/);
+        if (delMatch && request.method === "DELETE") return await handleAdminDelete(env, delMatch[1], delMatch[2]);
       } catch (err) {
         console.error("admin error:", (err && err.stack) || err);
         return json({ ok: false, error: "Server error." }, 500);

@@ -97,6 +97,17 @@ const CandidateForm = () => {
 
         <CategoryRolePicker value={roleValue} onChange={setRoleValue} name="role" error={errors.category} />
 
+        <div className="field-row">
+          <div className="field">
+            <label>Current Location</label>
+            <input className="input" type="text" name="current_location" placeholder="e.g. Bengaluru" />
+          </div>
+          <div className="field">
+            <label>Preferred Location</label>
+            <input className="input" type="text" name="preferred_location" placeholder="e.g. Hyderabad, Remote" />
+          </div>
+        </div>
+
         <div className="field">
           <label>Short Description of Experience</label>
           <textarea className="textarea" name="description" placeholder="A couple of lines on what you do and what you're looking for…" />
